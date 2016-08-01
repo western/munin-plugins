@@ -1,0 +1,29 @@
+#!/usr/bin/perl
+# -*- mode: cperl; mode: autopair -*-
+# Magic markers:
+#%# family=auto
+#%# capabilities=autoconf
+
+use strict;
+use warnings;
+use Data::Dumper;
+
+my $ptitle = 'count';
+
+if (exists $ARGV[0] and $ARGV[0] eq "config") {
+  print "graph_title puma $ptitle RAM usage\n";
+  print "graph_vlabel RAM\n";
+  print "graph_category puma\n";
+  print "ram.label RAM\n";
+  print "graph_args --base 1024\n";
+
+  exit 0;
+} else {
+
+  
+  my $m = `ps auxf | grep puma | grep $ptitle | grep -v 'grep' | awk 'NR > 0 {nm += \$5} END {print nm*1024}'`;
+
+  print "ram.value $m";
+}
+
+
